@@ -36,7 +36,7 @@ const Accordions = () => {
     
     return (
         <>
-            <div className="text-white">
+            <div className="text-white px-3">
                 <div id="accordion-open">
                     {accordions.map((item, index) => (
                         <div key={item.id} className="mb-2">
