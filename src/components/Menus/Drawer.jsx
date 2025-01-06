@@ -3,8 +3,6 @@ import {useState} from "react";
 const Drawer = ({isDrawerOpen}) => {
 
 
-
-
     return (
         <>
             <div id="drawer-navigation"

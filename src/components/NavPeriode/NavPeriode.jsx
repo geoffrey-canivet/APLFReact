@@ -11,7 +11,7 @@ const NavPeriode = () => {
                 <div
                     className="dark:bg-gray-700 border-r-2 dark:border-gray-700 border-gray-300 p-4 pl-7 rounded-xl mb-4 flex items-center justify-between">
 
-                    <h1 className="text-white font-bold text-xl tracking-wide uppercase">FINANCE</h1>
+                    <h1 className="text-white font-bold text-xl tracking-wide uppercase">Période</h1>
 
                     <div className="relative max-w-sm">
                         <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">

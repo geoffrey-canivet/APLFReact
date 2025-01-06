@@ -8,12 +8,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {useEffect, useState} from "react";
+import ChartDonut from "../Charts/ChartDonut.jsx";
+import {Button, Dialog, DialogPanel, DialogTitle} from "@headlessui/react";
 
 const CardFixe = ({ handleAddItem }) => {
+
     // BASE DE DONNEES
     const [cardData, setCardData] = useState(cardDataDB);
 
-    // DROPDOWN : État pour gérer quel dropdown est ouvert
+    // DROPDOWN ACTION
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const toggleDropdown = (id) => {
         setOpenDropdownId((prevId) => (prevId === id ? null : id));
@@ -65,7 +68,6 @@ const CardFixe = ({ handleAddItem }) => {
         }
     }, [cardData]); // Déclenche uniquement si cardData change
 
-    console.log(cardData);
 
     // AJOUTER UN ITEM
     const addItem = async (e) => {
@@ -368,6 +370,21 @@ const CardFixe = ({ handleAddItem }) => {
         }
     };
 
+    // AFFICHER GRAPHIQUE
+    const [modalChartOpen, setModalChartOpen] = useState(false);
+    const [currentCard, setCurrentCard] = useState(null);
+
+    function open(card) {
+        setModalChartOpen(true)
+        setCurrentCard(card);
+    }
+
+    function close() {
+        setModalChartOpen(false)
+        setCurrentCard(null);
+    }
+
+
     return (
         <>
             <style>
@@ -419,9 +436,36 @@ const CardFixe = ({ handleAddItem }) => {
                                 <button
                                     className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
                                     title="Graphique"
+                                    onClick={() => open(card)}
                                 >
                                     <FontAwesomeIcon icon={faChartBar}/>
                                 </button>
+
+                                <Dialog open={modalChartOpen} as="div" className="relative z-10 focus:outline-none" onClose={close}>
+                                    <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                                        <div className="flex min-h-full items-center justify-center p-4">
+                                            <DialogPanel
+                                                transition
+                                                className="w-full max-w-md rounded-xl bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+                                            >
+                                                <button
+                                                    className="absolute top-2 right-2 rounded-full p-1 text-white/70 hover:text-white focus:outline-none"
+                                                    onClick={close}
+                                                    aria-label="Fermer la modale"
+                                                >
+                                                    ✕ {/* Icône de croix */}
+                                                </button>
+                                                <DialogTitle as="h3" className="text-base/7 font-medium text-white">
+                                                    Charges
+                                                </DialogTitle>
+                                                {currentCard && (
+                                                    <ChartDonut data={currentCard.info} />
+                                                )}
+                                            </DialogPanel>
+                                        </div>
+                                    </div>
+                                </Dialog>
+
                                 <button
                                     id={card.id}
                                     className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"

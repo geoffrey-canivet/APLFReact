@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
 import CardFixe from "../Cards/CardFixe.jsx";
+import ChartDonut from "../Charts/ChartDonut.jsx";
 
 const Accordions = () => {
 
@@ -22,13 +23,13 @@ const Accordions = () => {
     const handleAddItem = (item) => {
         setAddItem(item);
     }
-    useEffect(() => {
+/*    useEffect(() => {
         console.log(addItem);
-    }, [addItem]);
+    }, [addItem]);*/
 
     const accordions = [
-        {id: 1, title: "Dépenses fixes", content: <CardFixe handleAddItem={handleAddItem} />, icon: faFileInvoiceDollar},
-        {id: 2, title: "Dépenses occasionnelles", content: "aaaaaaa", icon: faPiggyBank},
+        {id: 1, title: "Dépenses fixes", content: <CardFixe idDep="TEST" handleAddItem={handleAddItem} />, icon: faFileInvoiceDollar},
+        {id: 2, title: "Dépenses occasionnelles", content: <ChartDonut />, icon: faPiggyBank},
         {id: 3, title: "Revenus", content: "aaaaa", icon: faMoneyBillWave},
         {id: 4, title: "Détails du mois", content: "aaaaaa", icon: faCalendarAlt},
         {id: 5, title: "Comparer les mois", content: "aaaaaaa", icon: faChartLine}
