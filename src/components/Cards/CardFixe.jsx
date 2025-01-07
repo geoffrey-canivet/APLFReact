@@ -274,6 +274,7 @@ const CardFixe = ({ handleAddItem }) => {
         });
         // Si user confirme
         if (formValues) {
+
             const [name, price] = formValues;
             const updatedItem = { name, price };
 
@@ -373,17 +374,14 @@ const CardFixe = ({ handleAddItem }) => {
     // AFFICHER GRAPHIQUE
     const [modalChartOpen, setModalChartOpen] = useState(false);
     const [currentCard, setCurrentCard] = useState(null);
-
     function open(card) {
         setModalChartOpen(true)
         setCurrentCard(card);
     }
-
     function close() {
         setModalChartOpen(false)
         setCurrentCard(null);
     }
-
 
     return (
         <>
@@ -417,7 +415,7 @@ const CardFixe = ({ handleAddItem }) => {
                 `}
             </style>
             <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center m-5">
-                {cardData.map((card) => (
+                {cardData.slice(0, 4).map((card) => (
                     <div
                         key={card.id}
                         className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"

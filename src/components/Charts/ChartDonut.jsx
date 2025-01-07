@@ -21,6 +21,12 @@ const ChartDonut = ({ data }) => {
         }
     }, [labels, series]);
 
+    const generateRandomColors = (count) => {
+        return Array.from({ length: count }, () =>
+            `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`
+        );
+    };
+
 
 
     const chartOptions = {
@@ -53,7 +59,7 @@ const ChartDonut = ({ data }) => {
         },
 
         // Options de style pour les couleurs et les labels
-        colors: ['#22d3ee', '#f43f5e', '#facc15', '#4ade80'], // Couleurs des segments
+        colors: generateRandomColors(labels.length), // Couleurs des segments
         labels: labels, // Labels pour chaque segment
 
         // Options de personnalisation spécifiques au Donut
@@ -84,7 +90,7 @@ const ChartDonut = ({ data }) => {
                             label: 'Total', // Texte du label
                             fontSize: '18px', // Taille de la police
                             color: '#000', // Couleur du texte
-                            formatter: () => '1450€', // Format du texte total
+                            formatter: () => series.reduce((acc, curr) => acc + curr, 0), // Format du texte total
                         },
                     },
                 },
@@ -108,30 +114,19 @@ const ChartDonut = ({ data }) => {
         },
 
         // Options de responsive (taille dynamique selon l'écran)
-        /*        responsive: [
-                    {
-                        breakpoint: 1024, // Pour les écrans de moins de 1024px
-                        options: {
-                            chart: {
-                                width: 600, // Largeur du graphique
-                            },
-                            legend: {
-                                position: 'bottom', // Place la légende en bas
-                            },
-                        },
-                    },
+                responsive: [
                     {
                         breakpoint: 768, // Pour les écrans de moins de 768px
                         options: {
                             chart: {
-                                width: 400, // Largeur du graphique
+                                width: 300, // Largeur du graphique
                             },
                             legend: {
                                 position: 'bottom',
                             },
                         },
                     },
-                ],*/
+                ],
 
         // Configuration de la légende
         legend: {

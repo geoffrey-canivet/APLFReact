@@ -9,6 +9,9 @@ import {
 import {useEffect, useState} from "react";
 import CardFixe from "../Cards/CardFixe.jsx";
 import ChartDonut from "../Charts/ChartDonut.jsx";
+import CardOccasionnelle from "../Cards/CardOccasionnelle.jsx";
+import DataTable from "../Tables/DTable.jsx";
+import DTable from "../Tables/DTable.jsx";
 
 const Accordions = () => {
 
@@ -29,8 +32,8 @@ const Accordions = () => {
 
     const accordions = [
         {id: 1, title: "Dépenses fixes", content: <CardFixe idDep="TEST" handleAddItem={handleAddItem} />, icon: faFileInvoiceDollar},
-        {id: 2, title: "Dépenses occasionnelles", content: <ChartDonut />, icon: faPiggyBank},
-        {id: 3, title: "Revenus", content: "aaaaa", icon: faMoneyBillWave},
+        {id: 2, title: "Dépenses occasionnelles", content: <CardOccasionnelle/>, icon: faPiggyBank},
+        {id: 3, title: "Revenus", content: <DTable/>, icon: faMoneyBillWave},
         {id: 4, title: "Détails du mois", content: "aaaaaa", icon: faCalendarAlt},
         {id: 5, title: "Comparer les mois", content: "aaaaaaa", icon: faChartLine}
     ];
@@ -82,7 +85,7 @@ const Accordions = () => {
                             <div
                                 id={`accordion-body-${item.id}`}
                                 className={`transition-all duration-300 overflow-hidden ${
-                                    openAccordion === item.id ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+                                    openAccordion === item.id ? "min-h-full opacity-100" : "max-h-0 opacity-0"
                                 }`}
                             >
                                 <div className="p-5 border border-gray-200 dark:border-gray-700 dark:bg-gray-900">

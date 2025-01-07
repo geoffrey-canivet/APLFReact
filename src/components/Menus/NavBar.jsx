@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
 import logo from "/src/assets/logo-small.png"
+import avat from "/src/assets/avat.png"
 
 const NavBar = ({handleDrawerOpen}) => {
 
@@ -61,7 +62,7 @@ const NavBar = ({handleDrawerOpen}) => {
                             <span className="sr-only">Open user menu</span>
                             <img
                                 className="w-10 h-10 rounded"
-                                src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+                                src={avat}
                                 alt="user photo"
                             />
                         </button>
