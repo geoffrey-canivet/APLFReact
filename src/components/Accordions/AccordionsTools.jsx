@@ -20,11 +20,11 @@ const AccordionsTools = () => {
             <div className="text-white px-4">
                 <div id="accordion-open">
                     {accordions.map((item, index) => (
-                        <div key={item.id} className="mb-2">
+                        <div key={item.id} className="mb-1">
                             <h2 id={`accordion-heading-${item.id}`}>
                                 <button
                                     type="button"
-                                    className={`flex items-center justify-between w-full p-2 px-4 font-medium text-gray-300 focus:ring-4 dark:bg-gray-700 focus:ring-gray-200 dark:focus:ring-gray-800 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3 ${
+                                    className={`flex items-center justify-between w-full p-2 px-4 font-medium text-gray-300 focus:ring-4 dark:bg-gray-700 focus:ring-gray-200 dark:focus:ring-gray-800 dark:text-gray-400 hover:bg-gray-100 dark:hover:text-blue-400 dark:hover:bg-gray-800 gap-3 ${
                                         index === 0 ? "rounded-t-xl" : ""
                                     } ${
                                         index === accordions.length - 1 ? "rounded-b-xl" : ""

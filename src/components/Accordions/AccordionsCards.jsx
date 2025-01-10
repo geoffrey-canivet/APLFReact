@@ -16,7 +16,7 @@ import DTable from "../Tables/DTable.jsx";
 const AccordionsCards = () => {
 
     // ACCORDIONS
-    const [openAccordion, setOpenAccordion] = useState(null);
+    const [openAccordion, setOpenAccordion] = useState(1);
     const toggleAccordion = (id) => {
         setOpenAccordion(openAccordion === id ? null : id);
     }
@@ -41,11 +41,11 @@ const AccordionsCards = () => {
             <div className="text-white px-4">
                 <div id="accordion-open">
                     {accordions.map((item, index) => (
-                        <div key={item.id} className="mb-2">
+                        <div key={item.id} className="mb-1">
                             <h2 id={`accordion-heading-${item.id}`}>
                                 <button
                                     type="button"
-                                    className={`flex items-center justify-between w-full p-2 px-4 font-medium text-gray-300 focus:ring-4 dark:bg-gray-700 focus:ring-gray-200 dark:focus:ring-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3 ${
+                                    className={`flex items-center justify-between w-full p-2 px-4 font-medium text-gray-300 focus:ring-4 dark:bg-gray-700 focus:ring-gray-200 dark:focus:ring-gray-800 dark:text-gray-300  dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 ${
                                         index === 0 ? "rounded-t-xl" : ""
                                     } ${
                                         index === accordions.length - 1 ? "rounded-b-xl" : ""
@@ -57,7 +57,7 @@ const AccordionsCards = () => {
                                 <span className="flex items-center">
                                     <FontAwesomeIcon
                                         icon={item.icon}
-                                        className="w-4 h-4 mr-3 text-gray-300"
+                                        className="w-4 h-4 mr-3 text-gray-300  hover:text-blue-400"
                                     />
                                     {item.title}
                                 </span>
