@@ -13,7 +13,7 @@ import CardOccasionnelle from "../Cards/CardOccasionnelle.jsx";
 import DataTable from "../Tables/DTable.jsx";
 import DTable from "../Tables/DTable.jsx";
 
-const Accordions = () => {
+const AccordionsCards = () => {
 
     // ACCORDIONS
     const [openAccordion, setOpenAccordion] = useState(null);
@@ -34,20 +34,18 @@ const Accordions = () => {
         {id: 1, title: "Dépenses fixes", content: <CardFixe idDep="TEST" handleAddItem={handleAddItem} />, icon: faFileInvoiceDollar},
         {id: 2, title: "Dépenses occasionnelles", content: <CardOccasionnelle/>, icon: faPiggyBank},
         {id: 3, title: "Revenus", content: <DTable/>, icon: faMoneyBillWave},
-        {id: 4, title: "Détails du mois", content: "aaaaaa", icon: faCalendarAlt},
-        {id: 5, title: "Comparer les mois", content: "aaaaaaa", icon: faChartLine}
     ];
     
     return (
         <>
-            <div className="text-white px-3">
+            <div className="text-white px-4">
                 <div id="accordion-open">
                     {accordions.map((item, index) => (
                         <div key={item.id} className="mb-2">
                             <h2 id={`accordion-heading-${item.id}`}>
                                 <button
                                     type="button"
-                                    className={`flex items-center justify-between w-full p-5 font-medium text-gray-500 focus:ring-4 dark:bg-gray-700 focus:ring-gray-200 dark:focus:ring-gray-800 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3 ${
+                                    className={`flex items-center justify-between w-full p-2 px-4 font-medium text-gray-300 focus:ring-4 dark:bg-gray-700 focus:ring-gray-200 dark:focus:ring-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3 ${
                                         index === 0 ? "rounded-t-xl" : ""
                                     } ${
                                         index === accordions.length - 1 ? "rounded-b-xl" : ""
@@ -59,7 +57,7 @@ const Accordions = () => {
                                 <span className="flex items-center">
                                     <FontAwesomeIcon
                                         icon={item.icon}
-                                        className="w-5 h-5 mr-3 text-blue-400"
+                                        className="w-4 h-4 mr-3 text-gray-300"
                                     />
                                     {item.title}
                                 </span>
@@ -101,4 +99,4 @@ const Accordions = () => {
     );
 };
 
-export default Accordions;
+export default AccordionsCards;

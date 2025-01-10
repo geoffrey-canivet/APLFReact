@@ -1,8 +1,10 @@
-import Accordions from "../components/Accordions/Accordions.jsx";
+import AccordionsCards from "../components/Accordions/AccordionsCards.jsx";
 import NavBar from "../components/Menus/NavBar.jsx";
 import Drawer from "../components/Menus/Drawer.jsx";
 import {useState} from "react";
 import NavPeriode from "../components/NavPeriode/NavPeriode.jsx";
+import AccordionsTools from "../components/Accordions/AccordionsTools.jsx";
+import NavOutils from "../components/NavPeriode/NavOutils.jsx";
 
 const Dashboard = () => {
 
@@ -17,7 +19,9 @@ const Dashboard = () => {
                 <NavBar handleDrawerOpen={handleDrawerOpen} />
                 <Drawer isDrawerOpen={isDrawerOpen}/>
                 <NavPeriode/>
-                <Accordions/>
+                <AccordionsCards/>
+                <NavOutils/>
+                <AccordionsTools/>
             </div>
 
         </>
