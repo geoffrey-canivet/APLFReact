@@ -5,7 +5,7 @@ import {
     faGear,
     faRightFromBracket,
     faTriangleExclamation,
-    faUser,
+    faUser, faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import logo from "/src/assets/logo-small.png";
@@ -25,34 +25,37 @@ const NavBar = ({ handleDrawerOpen }) => {
     }, [drawerOpen, handleDrawerOpen]);
 
     const toggleNavDrawer = () => {
-        setDrawerOpen((prev) => !prev);
+        setDrawerOpen(!drawerOpen)
     };
 
     return (
         <>
-            {/* Overlay sombre */}
-            {navDropdown && (
+            {(drawerOpen || navDropdown) && (
                 <div
-                    className="fixed inset-0 bg-black bg-opacity-50 z-20"
-                    onClick={() => setNavDropdown(false)} // Ferme le dropdown au clic sur l'overlay
+                    className="fixed inset-0 bg-black bg-opacity-50 z-20 backdrop-blur-sm"
+                    onClick={() => {
+                        setDrawerOpen(false); // Ferme le drawer
+                        setNavDropdown(false); // Ferme le dropdown utilisateur
+                    }}
                 ></div>
             )}
+
 
             <nav className="bg-white dark:bg-gray-800 fixed w-full z-30 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
                 <div className="flex flex-wrap items-center justify-between mx-auto p-3 px-10">
                     {/* Logo et menu */}
                     <div className="flex items-center space-x-3 rtl:space-x-reverse">
                         <img src={logo} className="h-8" alt="App Logo" />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              APPLAB
-            </span>
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">APPLAB</span>
                         <button
                             id="dbtn"
                             onClick={toggleNavDrawer}
-                            className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
+                            className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-transparent rounded-lg text-sm py-1.5 px-2"
                             type="button"
                         >
-                            <FontAwesomeIcon icon={faBars} />
+                            {drawerOpen  ? <FontAwesomeIcon icon={faXmark} /> : <FontAwesomeIcon icon={faBars} />
+                            }
+
                         </button>
                     </div>
 
@@ -89,7 +92,7 @@ const NavBar = ({ handleDrawerOpen }) => {
                                 >
                                     <li>
                                         <a
-                                            href="#"
+                                            href="/profil"
                                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
                                             <FontAwesomeIcon className="mr-3" icon={faUser} />

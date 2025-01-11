@@ -13,6 +13,8 @@ import DTable from "../Tables/DTable.jsx";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import ModalAddItemOcc from "../Modals/ModalAddItemOcc.jsx";
+import ModalDatatable from "../Modals/ModalDatatable.jsx";
+import ModalChart from "../Modals/ModalChart.jsx";
 
 const CardOccasionnelle = () => {
 
@@ -55,6 +57,7 @@ const CardOccasionnelle = () => {
     return (
         <>
             <style>
+                {/*SCROLLBAR*/}
                 {`
                 .custom-scrollbar::-webkit-scrollbar {
                     width: 8px;
@@ -103,7 +106,7 @@ const CardOccasionnelle = () => {
                                 <button
                                     className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
                                     title="DataTable"
-                                    onClick={() => open(card)}
+                                    onClick={() => setCurrentModal("modalDatatable")}
                                 >
                                     <FontAwesomeIcon icon={faTableList}/>
                                 </button>
@@ -140,10 +143,11 @@ const CardOccasionnelle = () => {
                                 <button
                                     className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
                                     title="Graphique"
-                                    onClick={() => open(card)}
+                                    onClick={() => setCurrentModal("modalChart")}
                                 >
                                     <FontAwesomeIcon icon={faChartBar}/>
                                 </button>
+                                {/*MODAL GRAPHIQUE*/}
 
                                 <button
                                     id={card.id}
@@ -153,6 +157,8 @@ const CardOccasionnelle = () => {
                                 >
                                     <FontAwesomeIcon icon={faPlusCircle}/>
                                 </button>
+                                {/*MODAL ADD DEPENSE*/}
+
                             </div>
                         </div>
                         {/* BODY */}
@@ -204,6 +210,12 @@ const CardOccasionnelle = () => {
             {/* MODAL */}
             {currentModal === "modalAddItemOcc" && (
                 <ModalAddItemOcc handleFormSubmit={handleFormSubmit} closeModal={closeModal}  />
+            )}
+            {currentModal === "modalDatatable" && (
+                <ModalDatatable closeModal={closeModal}  />
+            )}
+            {currentModal === "modalChart" && (
+                <ModalChart closeModal={closeModal}  />
             )}
         </>
     );
