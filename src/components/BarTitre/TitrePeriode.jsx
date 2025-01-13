@@ -1,6 +1,6 @@
 
 
-const NavPeriode = () => {
+const TitrePeriode = () => {
 
     return (
         <>
@@ -22,4 +22,4 @@ const NavPeriode = () => {
     );
 };
 
-export default NavPeriode;
+export default TitrePeriode;

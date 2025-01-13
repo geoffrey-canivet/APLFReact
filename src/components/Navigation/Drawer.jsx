@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Weather from "../Weather/Weather.jsx";
+import MenuDrawer from "./MenuDrawer.jsx";
 
 const Drawer = ({ isDrawerOpen }) => {
     return (
@@ -18,19 +19,7 @@ const Drawer = ({ isDrawerOpen }) => {
                 </h5>
                 {/* Conteneur principal */}
                 <div className="flex flex-col">
-                    {/* Bouton en haut */}
-                    <div className="py-4 overflow-y-auto">
-                        <ul className="space-y-2 font-medium">
-                            <li>
-                                <a
-                                    href="/dashboard"
-                                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                                >
-                                    <span className="ms-3">Dashboard</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <MenuDrawer/>
                     {/* Météo en bas */}
                     <Weather />
                 </div>

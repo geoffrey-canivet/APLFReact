@@ -29,31 +29,6 @@ const CardOccasionnelle = () => {
         console.log("Recus de la modal:", dataForm);
     }
 
-    // DATATABLE
-    const [modalDataTableOpen, setModalDataTableOpen] = useState(false);
-    const [currentCard, setCurrentCard] = useState(null);
-    function open(card) {
-        setModalDataTableOpen(true)
-        setCurrentCard(card);
-    }
-    function close() {
-        setModalDataTableOpen(false)
-        setCurrentCard(null);
-    }
-
-    useEffect(() => {
-        currentCard ? currentCard.info.forEach((item) => {
-            console.log(`Liste de ${item.name} :`);
-            console.log("Détails :", item.detail);
-            console.log("Total :", item.total);
-            console.log("-------------------------");
-        }) : null
-
-
-    }, [currentCard]);
-
-
-
     return (
         <>
             <style>
@@ -110,35 +85,6 @@ const CardOccasionnelle = () => {
                                 >
                                     <FontAwesomeIcon icon={faTableList}/>
                                 </button>
-                                {/*MODAL DATATABLE*/}
-                                <Dialog open={modalDataTableOpen} as="div" className="relative z-10 focus:outline-none" onClose={close}>
-                                    <div
-                                        className={`fixed inset-0 bg-black/40 transition-opacity duration-300 ${
-                                            modalDataTableOpen ? 'opacity-100' : 'opacity-0'
-                                        }`}
-                                    ></div>
-                                    <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                                        <div className="flex min-h-full items-center justify-center p-4">
-                                            <DialogPanel
-                                                transition
-                                                className="relative w-full max-w-4xl rounded-md p-9 duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
-                                            >
-                                                <button
-                                                    className="absolute top-3 right-3 rounded-full p-0 text-white/70 hover:text-white focus:outline-none"
-                                                    onClick={close}
-                                                    aria-label="Fermer la modale"
-                                                >
-                                                    ✕ {/* Icône de croix */}
-                                                </button>
-                                                <DTable/>
-                                                <div className="bg-gray-700 w-full h-10 rounded-b-lg">
-                                                    <p className="text-lg text-gray-900 dark:text-white"></p>
-                                                </div>
-                                            </DialogPanel>
-                                        </div>
-                                    </div>
-                                </Dialog>
-
 
                                 <button
                                     className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
@@ -165,12 +111,12 @@ const CardOccasionnelle = () => {
                         <div className="relative w-full h-64 overflow-y-hidden hover:overflow-y-auto custom-scrollbar">
                             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <tbody>
-                                {card.info.map((item, i) => (
+                                {card.data.map((item, i) => (
                                     <tr
                                         key={i}
                                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 relative"
                                     >
-                                        <td className="px-4 py-2">{item.detail.length}</td>
+                                        <td className="px-4 py-2">{item.subData.length}</td>
                                         <td
                                             className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                         >
@@ -190,7 +136,7 @@ const CardOccasionnelle = () => {
                             </table>
                         </div>
                         {/* FOOTER */}
-                        <div className="flex justify-between px-4 py-4 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
+                        <div className="flex justify-between px-4 py-2 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
                             <div className="flex-1 text-center border-r border-gray-300 dark:border-gray-600">
                                 <div className="font-semibold text-gray-900 dark:text-white">{card.total}</div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Mois</div>
@@ -209,13 +155,13 @@ const CardOccasionnelle = () => {
             </div>
             {/* MODAL */}
             {currentModal === "modalAddItemOcc" && (
-                <ModalAddItemOcc handleFormSubmit={handleFormSubmit} closeModal={closeModal}  />
+                <ModalAddItemOcc handleFormSubmit={handleFormSubmit} closeModal={closeModal}/>
             )}
             {currentModal === "modalDatatable" && (
-                <ModalDatatable closeModal={closeModal}  />
+                <ModalDatatable closeModal={closeModal}/>
             )}
             {currentModal === "modalChart" && (
-                <ModalChart closeModal={closeModal}  />
+                <ModalChart closeModal={closeModal}/>
             )}
         </>
     );

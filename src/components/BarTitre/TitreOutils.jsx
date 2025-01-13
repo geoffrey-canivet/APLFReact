@@ -1,4 +1,4 @@
-const NavOutils = () => {
+const TitreOutils = () => {
     return (
         <>
             <div className="pt-2 px-3">
@@ -21,4 +21,4 @@ const NavOutils = () => {
     );
 };
 
-export default NavOutils;
+export default TitreOutils;

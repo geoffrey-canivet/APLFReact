@@ -2,9 +2,9 @@ import AccordionsCards from "../components/Accordions/AccordionsCards.jsx";
 import NavBar from "../components/Navigation/NavBar.jsx";
 import Drawer from "../components/Navigation/Drawer.jsx";
 import {useState} from "react";
-import NavPeriode from "../components/NavPeriode/NavPeriode.jsx";
+import TitrePeriode from "../components/BarTitre/TitrePeriode.jsx";
 import AccordionsTools from "../components/Accordions/AccordionsTools.jsx";
-import NavOutils from "../components/NavPeriode/NavOutils.jsx";
+import TitreOutils from "../components/BarTitre/TitreOutils.jsx";
 import Navigation from "../components/Navigation/Navigation.jsx";
 
 const Dashboard = () => {
@@ -15,9 +15,9 @@ const Dashboard = () => {
         <>
             <div className="dark:bg-gray-900 min-h-screen">
                 <Navigation/>
-                <NavPeriode/>
+                <TitrePeriode/>
                 <AccordionsCards/>
-                <NavOutils/>
+                <TitreOutils/>
                 <AccordionsTools/>
             </div>
 

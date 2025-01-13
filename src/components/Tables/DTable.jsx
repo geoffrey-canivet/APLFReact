@@ -1,4 +1,5 @@
 import DataTable from "react-data-table-component";
+import "../../styles/global.css"
 
 const DTable = () => {
     const data = [
@@ -167,8 +168,15 @@ const DTable = () => {
         { name: "Nb", selector: (row) => row.details.length, sortable: true, $grow: 0 },
         { name: "Nom", selector: (row) => row.name, sortable: true, $grow: 1 },
         { name: "Total", selector: (row) => row.total, sortable: true, $grow: 0 },
-        { name: "Commerce", selector: (row) => "Carrefour", sortable: true, $grow: 1 },
-        {name: "Progression", cell: (row) => (
+        { name: "Commerce", cell: (row) => (
+                <span
+                    className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">Carrefour</span>
+            ),
+            sortable: true,
+            $grow: 1
+        },
+        {
+            name: "Progression", cell: (row) => (
                 <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                     <div
                         className="h-2.5 rounded-full"
@@ -214,7 +222,7 @@ const DTable = () => {
                 expandableRows
                 expandOnRowClicked
                 fixedHeader
-                fixedHeaderScrollHeight="300px"
+                fixedHeaderScrollHeight="400px"
                 expandableRowsHideExpander
 
                 paginationComponentOptions={{
@@ -244,8 +252,8 @@ const DTable = () => {
                     headRow: {
                         style: {
                             borderBottom: "none", // Supprime la bordure sous la ligne d'en-tête
-                            borderTopLeftRadius: "8px", // Arrondi coin haut gauche
-                            borderTopRightRadius: "8px", // Arrondi coin haut droit
+                            borderTopLeftRadius: "0px", // Arrondi coin haut gauche
+                            borderTopRightRadius: "0px", // Arrondi coin haut droit
                             overflow: "hidden", // Assure que l'arrondi est visible
                             backgroundColor: "transparent",
                         },

@@ -98,6 +98,7 @@ const ModalAddItemOcc = ({ handleFormSubmit, closeModal }) => {
 				    }
                     .custom-popup {
                         max-width: 450px;
+                        border: 2px solid #4a5568;
                         background-color: #1F2937;
                         border-radius: 12px;
                         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -109,7 +110,7 @@ const ModalAddItemOcc = ({ handleFormSubmit, closeModal }) => {
                           padding-bottom: 0;
                           margin: 0 !important;
                           background-color: #1F2937;
-                          color: #fff;
+                          color: #63b3ed;
                           font-size: 1.25rem;
                           border-top-left-radius: 12px;
                           border-top-right-radius: 12px;

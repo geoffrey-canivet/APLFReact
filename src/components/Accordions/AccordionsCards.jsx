@@ -86,7 +86,7 @@ const AccordionsCards = () => {
                                     openAccordion === item.id ? "min-h-full opacity-100" : "max-h-0 opacity-0"
                                 }`}
                             >
-                                <div className="p-5 border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                                <div className="p-0 border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                                     {item.content}
                                 </div>
 
