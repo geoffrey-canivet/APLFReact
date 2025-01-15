@@ -42,7 +42,7 @@ const NavBar = ({ handleDrawerOpen }) => {
 
 
             <nav className="bg-white dark:bg-gray-800 fixed w-full z-30 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-                <div className="flex flex-wrap items-center justify-between mx-auto p-3 px-10">
+                <div className="flex flex-wrap items-center justify-between mx-auto p-2 px-10">
                     {/* Logo et menu */}
                     <div className="flex items-center space-x-3 rtl:space-x-reverse">
                         <img src={logo} className="h-8" alt="App Logo" />
@@ -121,21 +121,9 @@ const NavBar = ({ handleDrawerOpen }) => {
                                         >
                                             <FontAwesomeIcon
                                                 className="mr-3"
-                                                icon={faCircleExclamation}
-                                            />
-                                            Alerte
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        >
-                                            <FontAwesomeIcon
-                                                className="mr-3"
                                                 icon={faTriangleExclamation}
                                             />
-                                            Avertissement
+                                            Notifications
                                         </a>
                                     </li>
                                 </ul>

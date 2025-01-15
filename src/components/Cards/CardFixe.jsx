@@ -346,7 +346,7 @@ const CardFixe = ({ handleAddItem }) => {
                                         >
                                             {item.name}
                                         </td>
-                                        <td className="px-4 py-2">{item.price}</td>
+                                        <td className="px-4 py-2">{item.price}.00</td>
                                         <td className="px-4 py-2 relative">
                                             <button
                                                 onClick={() => toggleDropdown(`${card.id}-${i}`)}
@@ -382,15 +382,15 @@ const CardFixe = ({ handleAddItem }) => {
                         {/* FOOTER */}
                         <div className="flex justify-between px-4 py-2 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
                             <div className="flex-1 text-center border-r border-gray-300 dark:border-gray-600">
-                                <div className="font-semibold text-gray-900 dark:text-white">{card.total}</div>
+                                <div className="font-semibold text-gray-900 dark:text-white">{card.total} €</div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Mois</div>
                             </div>
                             <div className="flex-1 text-center border-r border-gray-300 dark:border-gray-600">
-                                <div className="font-semibold text-gray-900 dark:text-white">{(card.total)*3}</div>
+                                <div className="font-semibold text-gray-900 dark:text-white">{(card.total)*3} €</div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Trimestre</div>
                             </div>
                             <div className="flex-1 text-center">
-                                <div className="font-semibold text-gray-900 dark:text-white">{(card.total)*12}</div>
+                                <div className="font-semibold text-gray-900 dark:text-white">{(card.total)*12} €</div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Année</div>
                             </div>
                         </div>

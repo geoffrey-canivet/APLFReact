@@ -4,7 +4,10 @@ import {
     faChartLine,
     faFileInvoiceDollar,
     faMoneyBillWave,
-    faPiggyBank
+    faWallet,
+    faPiggyBank,
+    faCashRegister,
+    faLandmark
 } from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
 import CardFixe from "../Cards/CardFixe.jsx";
@@ -31,9 +34,9 @@ const AccordionsCards = () => {
     }, [addItem]);*/
 
     const accordions = [
-        {id: 1, title: "Dépenses fixes", content: <CardFixe idDep="TEST" handleAddItem={handleAddItem} />, icon: faFileInvoiceDollar},
-        {id: 2, title: "Dépenses occasionnelles", content: <CardOccasionnelle/>, icon: faPiggyBank},
-        {id: 3, title: "Revenus", content: <DTable/>, icon: faMoneyBillWave},
+        {id: 1, title: "Dépenses fixes", content: <CardFixe idDep="TEST" handleAddItem={handleAddItem} />, icon: faLandmark},
+        {id: 2, title: "Dépenses occasionnelles", content: <CardOccasionnelle/>, icon: faCashRegister},
+        {id: 3, title: "Revenus", content: <DTable/>, icon: faWallet},
     ];
     
     return (

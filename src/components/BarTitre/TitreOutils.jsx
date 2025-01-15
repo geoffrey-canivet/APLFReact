@@ -3,7 +3,7 @@ const TitreOutils = () => {
         <>
             <div className="pt-2 px-3">
                 <div
-                    className="dark:bg-gray-800  dark:border-gray-700 border-gray-300 py-3 px-4  rounded-xl mb-4 flex items-center">
+                    className="dark:bg-gray-800 border  dark:border-gray-700 border-gray-300 py-3 px-4  rounded-xl mb-4 flex items-center">
                     <span>
                         <svg className="w-6 h-6 text-gray-800 dark:text-blue-400" aria-hidden="true"
                              xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"

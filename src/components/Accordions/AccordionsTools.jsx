@@ -1,4 +1,4 @@
-import {faCalendarAlt, faChartLine,} from "@fortawesome/free-solid-svg-icons";
+import {faCalendarAlt, faChartLine,faBullseye, faLandmark} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {useState} from "react";
 
@@ -11,7 +11,7 @@ const AccordionsTools = () => {
     }
 
     const accordions = [
-        {id: 4, title: "Détails du mois", content: "aaaaaa", icon: faCalendarAlt},
+        {id: 4, title: "Détails du mois", content: "aaaaaa", icon: faBullseye},
         {id: 5, title: "Comparer les mois", content: "aaaaaaa", icon: faChartLine}
     ];
 

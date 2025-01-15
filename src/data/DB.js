@@ -5,7 +5,8 @@ import {
     faHouse,
     faPlane, faThumbtack,
     faTicket,
-    faUmbrella
+    faUmbrella,
+    faMoneyBill, faMoneyBillWave, faSackDollar
 } from "@fortawesome/free-solid-svg-icons";
 
 const cardData = [
@@ -120,6 +121,48 @@ const cardData = [
             { name: "Frais voiture", total: "8", subData: ["34", "67", "84", "19"] },
             { name: "Avocat", total: "14", subData: ["36", "49", "32"] },
             { name: "Comptable", total: "11", subData: ["36", "42", "18", "49"] },
+        ],
+        total: null,
+    },
+    {
+        id: 9,
+        title: "Revenus Actifs",
+        icon: faMoneyBill,
+        data: [
+            { name: "Salaire", total: "1930" },
+            { name: "Heures supplémentaires", total: "320"},
+            { name: "Honoraires", total: "780",},
+        ],
+        total: null,
+    },
+    {
+        id: 10,
+        title: "Revenus Passifs",
+        icon: faThumbtack,
+        data: [
+            { name: "Loyers", total: "780"},
+            { name: "Intérêts", total: "70"},
+            { name: "Royalties", total: "150"},
+        ],
+        total: null,
+    },
+    {
+        id: 11,
+        title: "Revenus Exceptionnels",
+        icon: faMoneyBillWave,
+        data: [
+            { name: "Ventes d'objets", total: "150"},
+            { name: "Héritages", total: "3.460"},
+            { name: "Gains de loterie", total: "80"},
+        ],
+        total: null,
+    },
+    {
+        id: 12,
+        title: "Divers",
+        icon: faSackDollar,
+        data: [
+            { name: "Autres", total: "180"},
         ],
         total: null,
     },
