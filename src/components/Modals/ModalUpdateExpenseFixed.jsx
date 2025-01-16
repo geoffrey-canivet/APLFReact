@@ -2,11 +2,7 @@ import {useEffect} from "react";
 import MySwal from "sweetalert2";
 import Swal from "sweetalert2";
 
-const ModalAddItemFixe = ({closeModal, handleAddItem}) => {
-
-    function generateRandomNumber() {
-        return Math.floor(Math.random() * 99999) + 1;
-    }
+const ModalUpdateExpenseFixed = ({closeModal}) => {
 
     useEffect(() => {
         MySwal.fire({
@@ -102,23 +98,21 @@ const ModalAddItemFixe = ({closeModal, handleAddItem}) => {
             confirmButtonText: "Ajouter",
             cancelButtonText: "Annuler",
             preConfirm: () => {
-                const id = generateRandomNumber()
                 const name = document.getElementById("inputNom").value;
                 const price = document.getElementById("inputPrix").value;
                 if (!name || !price) {
                     Swal.showValidationMessage("Veuillez remplir tous les champs.");
                     return null;
                 }
-                return {id, name, price };
+                return { name, price };
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                handleAddItem(result.value)
                 console.log(result.value)
             }
             closeModal();
         });
-    }, [closeModal, handleAddItem]);
+    }, [closeModal]);
 
     return (
         <>
@@ -127,4 +121,4 @@ const ModalAddItemFixe = ({closeModal, handleAddItem}) => {
     );
 };
 
-export default ModalAddItemFixe;
+export default ModalUpdateExpenseFixed;

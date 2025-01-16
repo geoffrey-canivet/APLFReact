@@ -1,31 +1,46 @@
-import cardDataDB from "../../data/DB.js";
+import {useEffect, useState} from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import {
-    faChartBar,
-    faPlusCircle,
-    faEllipsis, faTrash, faPenToSquare
-} from "@fortawesome/free-solid-svg-icons";
+import Toast from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {useEffect, useState} from "react";
-import ChartDonut from "../Charts/ChartDonut.jsx";
-import {Button, Dialog, DialogPanel, DialogTitle} from "@headlessui/react";
-import ModalAddItemOcc from "../Modals/ModalAddItemOcc.jsx";
+import {faChartBar,faPlusCircle,faEllipsis, faTrash, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+
 import ModalAddItemFixe from "../Modals/ModalAddItemFixe.jsx";
-import ModalDatatable from "../Modals/ModalDatatable.jsx";
 import ModalChart from "../Modals/ModalChart.jsx";
+
+import useExpenseStore from "../../store/useExpenseStore.js";
+import ModalUpdateExpenseFixed from "../Modals/ModalUpdateExpenseFixed.jsx";
 
 const CardFixe = ({ handleAddItem }) => {
 
-    // BASE DE DONNEES
-    const [cardData, setCardData] = useState(cardDataDB);
+    // STORE / DB
+    const dataExpenseFIxed = useExpenseStore((state) => state.dataExpenseFIxed);
+    const addFixedExpense = useExpenseStore((state) => state.addFixedExpense);
+    const updateTotal = useExpenseStore((state) => state.updateTotal);
 
     // MODAL
     const [currentModal, setCurrentModal] = useState(null);
+    const [categoryId, setCategoryId] = useState(null);
+    const [expenseId, setExpenseId] = useState(null);
+
+    const modalAddExpense = (e) => {
+        setCurrentModal("modalAddItemFixe")
+        setCategoryId(parseInt(e.currentTarget.id, 10));
+    }
+
+    const modalupdateExpense = (e) => {
+        setCurrentModal("ModalUpdateExpenseFixed")
+        setExpenseId(parseInt(e.currentTarget.id, 10));
+    }
+
     const closeModal = () => {
         setCurrentModal(null);
     }
 
+    // Recalculer les totaux à chaque changement de `dataExpenseFIxed`
+    useEffect(() => {
+        updateTotal();
+    }, [updateTotal]);
 
     // DROPDOWN ACTION
     const [openDropdownId, setOpenDropdownId] = useState(null);
@@ -45,7 +60,7 @@ const CardFixe = ({ handleAddItem }) => {
     }, []);
 
     // FOOTER
-    useEffect(() => {
+/*    useEffect(() => {
         // Vérifie si un recalcul est nécessaire
         const updatedCards = cardData.map((card) => {
             const currentTotal = card.data.reduce((sum, item) => sum + parseFloat(item.price), 0);
@@ -64,9 +79,7 @@ const CardFixe = ({ handleAddItem }) => {
         if (JSON.stringify(cardData) !== JSON.stringify(updatedCards)) {
             setCardData(updatedCards);
         }
-    }, [cardData]); // Déclenche uniquement si cardData change
-
-    // AJOUTER UN ITEM
+    }, [cardData]); // Déclenche uniquement si cardData change*/
 
     // MODIFIER ITEM
     const updateItem = async (cardId, itemName, price) => {
@@ -288,7 +301,7 @@ const CardFixe = ({ handleAddItem }) => {
                 ></div>
             )}
             <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center m-5">
-                {cardData.slice(0, 4).map((card) => (
+                {dataExpenseFIxed.slice(0, 4).map((card) => (
                     <div
                         key={card.id}
                         className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
@@ -318,7 +331,7 @@ const CardFixe = ({ handleAddItem }) => {
                                     id={card.id}
                                     className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
                                     title="Ajouter un élément"
-                                    onClick={() => setCurrentModal("modalAddItemFixe")}
+                                    onClick={modalAddExpense}
                                 >
                                     <FontAwesomeIcon icon={faPlusCircle}/>
                                 </button>
@@ -330,12 +343,10 @@ const CardFixe = ({ handleAddItem }) => {
                                 <tbody>
                                 {card.data.map((item, i) => (
                                     <tr
-                                        key={i}
+                                        key={`${card.id}-${i}`}
                                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 relative"
                                     >
-                                        <td
-                                            className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
+                                        <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {item.name}
                                         </td>
                                         <td className="px-4 py-2">{item.price}.00</td>
@@ -346,14 +357,14 @@ const CardFixe = ({ handleAddItem }) => {
                                             >
                                                 <FontAwesomeIcon icon={faEllipsis}/>
                                             </button>
-                                            {/* Dropdown menu */}
                                             {openDropdownId === `${card.id}-${i}` && (
                                                 <div
                                                     className="absolute right-3 mt-2 w-32 border border-gray-600 dark:bg-gray-700 rounded-lg shadow-lg z-50 overflow-hidden"
                                                 >
                                                     <button
+                                                        id={item.id}
                                                         className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-500"
-                                                        onClick={() => updateItem(card.id, item.name, item.price)}
+                                                        onClick={modalupdateExpense}
                                                     >
                                                         <FontAwesomeIcon icon={faPenToSquare}/> Modifier
                                                     </button>
@@ -369,6 +380,8 @@ const CardFixe = ({ handleAddItem }) => {
                                     </tr>
                                 ))}
                                 </tbody>
+
+
                             </table>
                         </div>
                         {/* FOOTER */}
@@ -378,11 +391,11 @@ const CardFixe = ({ handleAddItem }) => {
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Mois</div>
                             </div>
                             <div className="flex-1 text-center border-r border-gray-300 dark:border-gray-600">
-                                <div className="font-semibold text-gray-900 dark:text-white">{(card.total)*3} €</div>
+                                <div className="font-semibold text-gray-900 dark:text-white">{(card.total) * 3} €</div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Trimestre</div>
                             </div>
                             <div className="flex-1 text-center">
-                                <div className="font-semibold text-gray-900 dark:text-white">{(card.total)*12} €</div>
+                                <div className="font-semibold text-gray-900 dark:text-white">{(card.total) * 12} €</div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Année</div>
                             </div>
                         </div>
@@ -391,10 +404,15 @@ const CardFixe = ({ handleAddItem }) => {
             </div>
             {/* MODAL */}
             {currentModal === "modalAddItemFixe" && (
-                <ModalAddItemFixe closeModal={closeModal}   />
+                <ModalAddItemFixe
+                    closeModal={closeModal}
+                    handleAddItem={(newItem) => addFixedExpense(categoryId, newItem)}
+                />
             )}
-            {currentModal === "modalChart" && (
-                <ModalChart closeModal={closeModal} cardData={cardData} setCardData={setCardData}  />
+            {currentModal === "ModalUpdateExpenseFixed" && (
+                <ModalUpdateExpenseFixed
+                    closeModal={closeModal}
+                />
             )}
         </>
 
