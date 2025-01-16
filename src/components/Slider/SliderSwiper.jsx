@@ -146,8 +146,8 @@ const SwiperDashboard = () => {
                 pagination={false}
                 scrollbar={false}
                 spaceBetween={20}
-                onSlideChange={() => console.log('Slide changed!')} // Événement de changement de slide
-                onSwiper={(swiper) => console.log(swiper)} // Instance Swiper
+/*                onSlideChange={() => console.log('Slide changed!')} // Événement de changement de slide
+                onSwiper={(swiper) => console.log(swiper)} // Instance Swiper*/
                 loop={true}
                 speed={5000}
                 grabCursor={true}

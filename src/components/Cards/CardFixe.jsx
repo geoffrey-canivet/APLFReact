@@ -26,10 +26,6 @@ const CardFixe = ({ handleAddItem }) => {
         setCurrentModal(null);
     }
 
-    // AJOUTER UNE DEPENSE
-    const handleFormSubmit = (dataForm) => {
-        console.log("Recus de la modal:", dataForm);
-    }
 
     // DROPDOWN ACTION
     const [openDropdownId, setOpenDropdownId] = useState(null);
@@ -395,7 +391,7 @@ const CardFixe = ({ handleAddItem }) => {
             </div>
             {/* MODAL */}
             {currentModal === "modalAddItemFixe" && (
-                <ModalAddItemFixe  handleFormSubmit={handleFormSubmit} closeModal={closeModal}   />
+                <ModalAddItemFixe closeModal={closeModal}   />
             )}
             {currentModal === "modalChart" && (
                 <ModalChart closeModal={closeModal} cardData={cardData} setCardData={setCardData}  />

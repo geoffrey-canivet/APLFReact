@@ -1,10 +1,20 @@
-import {useEffect} from "react";
+import {useEffect, useRef, useState} from "react";
 import MySwal from "sweetalert2";
 import Swal from "sweetalert2";
 import Toast from "sweetalert2";
+import useExpenseStore from "../../store/useExpenseStore.js";
 
 
-const ModalAddItemFixe = ({ handleFormSubmit, closeModal }) => {
+const ModalAddItemFixe = ({closeModal}) => {
+
+    const [newFixedExpense, setNewFixedExpense] = useState(false);
+
+    const dataBase = useExpenseStore((state) => state.dataBase);
+    const addFixedExpense = useExpenseStore((state) => state.addFixedExpense);
+
+    useEffect(() => {
+        console.log(dataBase);
+    }, [dataBase]);
 
     useEffect(() => {
         MySwal.fire({
@@ -110,14 +120,12 @@ const ModalAddItemFixe = ({ handleFormSubmit, closeModal }) => {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                handleFormSubmit(result.value);
+                setNewFixedExpense(result.value)
+                addFixedExpense(result.value)
             }
             closeModal();
         });
-    }, [handleFormSubmit, closeModal]);
-
-
-
+    }, [closeModal, addFixedExpense]);
 
     return (
         <>
