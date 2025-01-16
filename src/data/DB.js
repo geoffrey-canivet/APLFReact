@@ -148,7 +148,7 @@ const cardData = [
     },
     {
         id: 11,
-        title: "Revenus Exceptionnels",
+        title: "Revenus Exceptionnelles",
         icon: faMoneyBillWave,
         data: [
             { name: "Ventes d'objets", total: "150"},
