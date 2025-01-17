@@ -6,7 +6,7 @@ const ModalModifProfil = ({closeModal}) => {
 
     useEffect(() => {
         MySwal.fire({
-            title: "Courante",
+            title: "Modifier",
             padding: 0,
             customClass: {
                 popup: "custom-popup",

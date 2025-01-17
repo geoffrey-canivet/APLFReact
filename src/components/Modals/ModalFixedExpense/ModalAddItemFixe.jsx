@@ -1,6 +1,7 @@
 import {useEffect} from "react";
 import MySwal from "sweetalert2";
 import Swal from "sweetalert2";
+import Toast from "sweetalert2";
 
 const ModalAddItemFixe = ({closeModal, handleAddItem}) => {
 
@@ -8,9 +9,23 @@ const ModalAddItemFixe = ({closeModal, handleAddItem}) => {
         return Math.floor(Math.random() * 99999) + 1;
     }
 
+    // Configure Toast
+    const ToastNotification = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        background: "#1F2937",
+        color: "#FFFFFF",
+        customClass: {
+            popup: "rounded-lg shadow-lg",
+        },
+    });
+
     useEffect(() => {
         MySwal.fire({
-            title: "Courante",
+            title: "Ajouter",
             padding: 0,
             customClass: {
                 popup: "custom-popup",
@@ -22,7 +37,7 @@ const ModalAddItemFixe = ({closeModal, handleAddItem}) => {
             },
             html: `
             <form class="max-w-sm mx-auto">
-					<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-md mx-auto mt-3">
+					<div class="grid grid-cols-1 gap-2 max-w-md mx-auto mt-3">
                         <!--Nom-->
 						<div class="relative">
 							<div class="absolute pr-3 inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
@@ -34,14 +49,14 @@ const ModalAddItemFixe = ({closeModal, handleAddItem}) => {
 						</div>
 						<!--Prix-->
 						<div class="relative">
-							<div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+							<div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none ">
 								<svg className="w-[24px] h-[24px] text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24">
 									<path fill-rule="evenodd" d="M7 6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2v-4a3 3 0 0 0-3-3H7V6Z" clip-rule="evenodd"/>
 									<path fill-rule="evenodd" d="M2 11a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7Zm7.5 1a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" clip-rule="evenodd"/>
 									<path d="M10.5 14.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/>
 								</svg>
 							</div>
-							<input type="text" id="inputPrix" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-12 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Prix">
+							<input type="text" id="inputPrix" class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-12 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Prix">
 						</div>
                     </div>
 				</form>
@@ -95,12 +110,26 @@ const ModalAddItemFixe = ({closeModal, handleAddItem}) => {
                           border-radius: 4px !important;
                           background-color: #374151;
                     }
-					
+				
 				</style>
         `,
             showCancelButton: true,
             confirmButtonText: "Ajouter",
             cancelButtonText: "Annuler",
+            didOpen: () => {
+                const backdrop = document.querySelector(".swal2-backdrop-show");
+                if (backdrop) {
+                    backdrop.style.backdropFilter = "blur(5px)";
+                    backdrop.style.backgroundColor = "rgba(4,19,35,0.7)"; // Gris foncé avec 90% d'opacité
+                }
+                const validationMessage = document.querySelector(".swal2-validation-message");
+                if (validationMessage) {
+                    validationMessage.style.color = "#D6544A";
+                    validationMessage.style.backgroundColor = "#111827";
+                    validationMessage.style.margin = "0px";
+                    validationMessage.style.marginBottom = "5px";
+                }
+            },
             preConfirm: () => {
                 const id = generateRandomNumber()
                 const name = document.getElementById("inputNom").value;
@@ -114,11 +143,15 @@ const ModalAddItemFixe = ({closeModal, handleAddItem}) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 handleAddItem(result.value)
-                console.log(result.value)
+                ToastNotification.fire({
+                    icon: "success",
+                    title: `${result.value.name} ajouté avec succès.`,
+                });
             }
             closeModal();
+
         });
-    }, [closeModal, handleAddItem]);
+    }, [ToastNotification, closeModal, handleAddItem]);
 
     return (
         <>
