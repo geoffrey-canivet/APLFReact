@@ -1,41 +1,44 @@
 import {useEffect, useState} from "react";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faChartBar,faPlusCircle,faEllipsis, faTrash, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChartBar, faEllipsis, faPenToSquare, faPlusCircle, faTrash} from "@fortawesome/free-solid-svg-icons";
+import useIncomeStore from "../../store/useIncomeStore.js";
+import modalAddIncome from "../Modals/ModalIncome/modalAddIncome.jsx";
+import modalupdateIncome from "../Modals/ModalIncome/modalupdateIncome.jsx";
+import modalDeleteIncome from "../Modals/ModalIncome/modalDeleteIncome.jsx";
+import ModalAddIncome from "../Modals/ModalIncome/modalAddIncome.jsx";
+import ModalupdateIncome from "../Modals/ModalIncome/modalupdateIncome.jsx";
+import ModalDeleteIncome from "../Modals/ModalIncome/modalDeleteIncome.jsx";
 import useExpenseStore from "../../store/useExpenseStore.js";
-
-import ModalAddItemFixe from "../Modals/ModalFixedExpense/ModalAddItemFixe.jsx";
-import ModalUpdateExpenseFixed from "../Modals/ModalFixedExpense/ModalUpdateExpenseFixed.jsx";
-import ModalDeleteExpense from "../Modals/ModalFixedExpense/ModalDeleteExpense.jsx";
 import ModalChart from "../Modals/ModalChart/ModalChart.jsx";
 
-const CardFixe = () => {
+const CardRevenu = () => {
 
     // STORE / DB
-    const dataExpenseFixed = useExpenseStore((state) => state.dataExpenseFixed);
-    const addFixedExpense = useExpenseStore((state) => state.addFixedExpense);
-    const updateFixedExpense = useExpenseStore((state) => state.updateFixedExpense);
-    const deleteFixedExpense = useExpenseStore((state) => state.deleteFixedExpense);
+    const dataIncome = useIncomeStore((state) => state.dataIncome);
+    const addIncome = useIncomeStore((state) => state.addIncome);
+    const updateIncome = useIncomeStore((state) => state.updateIncome);
+    const deleteIncome = useIncomeStore((state) => state.deleteIncome);
 
     // MODAL
     const [currentModal, setCurrentModal] = useState(null);
     const [categoryId, setCategoryId] = useState(null);
-    const [expenseId, setExpenseId] = useState(null);
+    const [incomeId, setIncomeId] = useState(null);
     // AJOUTER
-    const modalAddExpense = (e) => {
-        setCurrentModal("modalAddItemFixe")
+    const modalAddIncome = (e) => {
+        setCurrentModal("modalAddIncome")
         setCategoryId(parseInt(e.currentTarget.id, 10));
     }
     // MODIFIER
-    const modalupdateExpense = (e) => {
-        setCurrentModal("ModalUpdateExpenseFixed")
-        setExpenseId(parseInt(e.currentTarget.id, 10));
+    const modalupdateIncome = (e) => {
+        setCurrentModal("modalupdateIncome")
+        setIncomeId(parseInt(e.currentTarget.id, 10));
     }
     // SUPPRIMER
-    const modalDeleteExpense = (e) => {
+    const modalDeleteIncome = (e) => {
         const id = parseInt(e.currentTarget.id, 10);
-        setExpenseId(id);
-        setCurrentModal("ModalDeleteExpenseFixed");
+        console.log("Expense ID to delete:", id);
+        setIncomeId(id);
+        setCurrentModal("modalDeleteIncome");
     };
     // GRAPHIQUE
     const modalGraphique = (e) => {
@@ -63,16 +66,6 @@ const CardFixe = () => {
             document.removeEventListener("click", handleClickOutside);
         };
     }, []);
-
-    // FOOTER
-    const [expenseDataWithTotals, setExpenseDataWithTotals] = useState([]);
-    useEffect(() => {
-        const updatedData = dataExpenseFixed.map((category) => {
-            const total = category.data.reduce((sum, item) => sum + parseFloat(item.price || 0), 0);
-            return { ...category, total }; // Return a new object with the calculated total
-        });
-        setExpenseDataWithTotals(updatedData); // Update the local state
-    }, [dataExpenseFixed]);
 
     return (
         <>
@@ -115,8 +108,9 @@ const CardFixe = () => {
                 ></div>
             )}
             <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center m-5">
-                {dataExpenseFixed.slice(0, 4).map((card) => (
-                    <div key={card.id} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                {dataIncome.slice(0, 4).map((card) => (
+                    <div key={card.id}
+                         className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                         {/* HEADER */}
                         <div className="flex justify-between px-4 pt-2 pb-2 bg-gray-50 dark:bg-gray-700 rounded-t-lg">
                             <h5 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -124,14 +118,16 @@ const CardFixe = () => {
                                 {card.title}
                             </h5>
                             <div className="px-0 py-0 flex gap-4">
-                                <button className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400" title="Graphique"
-                                    id={card.id}
-                                    onClick={modalGraphique}>
+                                <button className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
+                                        title="Graphique"
+                                        id={card.id}
+                                        onClick={modalGraphique}>
                                     <FontAwesomeIcon icon={faChartBar}/>
                                 </button>
-                                <button className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400" title="Ajouter un élément"
-                                    id={card.id}
-                                    onClick={modalAddExpense}>
+                                <button className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
+                                        title="Ajouter un élément"
+                                        id={card.id}
+                                        onClick={modalAddIncome}>
                                     <FontAwesomeIcon icon={faPlusCircle}/>
                                 </button>
                             </div>
@@ -163,14 +159,14 @@ const CardFixe = () => {
                                                     <button
                                                         id={item.id}
                                                         className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-500"
-                                                        onClick={modalupdateExpense}
+                                                        onClick={modalupdateIncome}
                                                     >
                                                         <FontAwesomeIcon icon={faPenToSquare}/> Modifier
                                                     </button>
                                                     <button
                                                         id={item.id}
                                                         className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-500"
-                                                        onClick={modalDeleteExpense}
+                                                        onClick={modalDeleteIncome}
                                                     >
                                                         <FontAwesomeIcon icon={faTrash}/> Supprimer
                                                     </button>
@@ -185,7 +181,7 @@ const CardFixe = () => {
                         {/* FOOTER */}
                         <div className="flex justify-between px-4 py-2 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
                             <div className="flex-1 text-center border-r border-gray-300 dark:border-gray-600">
-                                <div className="font-semibold text-gray-900 dark:text-white">{card.total} €</div>
+                                <div className="font-semibold text-gray-900 dark:text-white">{card.total} 0 €</div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Mois</div>
                             </div>
                             <div className="flex-1 text-center border-r border-gray-300 dark:border-gray-600">
@@ -201,25 +197,25 @@ const CardFixe = () => {
                 ))}
             </div>
             {/* MODAL */}
-            {currentModal === "modalAddItemFixe" && (
-                <ModalAddItemFixe
+            {currentModal === "modalAddIncome" && (
+                <ModalAddIncome
                     closeModal={closeModal}
-                    handleAddItem={(newItem) => addFixedExpense(categoryId, newItem)}
+                    handleAddItem={(newItem) => addIncome(categoryId, newItem)}
                 />
             )}
-            {currentModal === "ModalUpdateExpenseFixed" && (
-                <ModalUpdateExpenseFixed
+            {currentModal === "modalupdateIncome" && (
+                <ModalupdateIncome
                     closeModal={closeModal}
-                    expenseId={expenseId}
-                    dataExpenseFixed={dataExpenseFixed}
-                    handleUpdateExpense={(updatedExpense) => updateFixedExpense(expenseId, updatedExpense)}
+                    incomeId={incomeId}
+                    dataIncome={dataIncome}
+                    handleUpdateIncome={(updatedIncome) => updateIncome(incomeId, updatedIncome)}
                 />
             )}
-            {currentModal === "ModalDeleteExpenseFixed" && (
-                <ModalDeleteExpense
+            {currentModal === "modalDeleteIncome" && (
+                <ModalDeleteIncome
                     closeModal={closeModal}
-                    handleDeleteExpense={() => {
-                         deleteFixedExpense(expenseId);
+                    handleDeleteIncome={() => {
+                        deleteIncome(incomeId);
                     }}
                 />
             )}
@@ -233,4 +229,4 @@ const CardFixe = () => {
     );
 };
 
-export default CardFixe;
+export default CardRevenu;

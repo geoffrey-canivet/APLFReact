@@ -1,38 +1,89 @@
-
+import ModalAddItemOcc from "../Modals/ModalOccasionalExpense/ModalAddItemOcc.jsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faChartBar,
+    faEllipsis,
+    faPenToSquare,
+    faPlus,
     faPlusCircle,
-    faEllipsis, faTrash, faPenToSquare, faTableList
+    faTableList,
+    faTrash
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import cardData from "../../data/DB.js";
-import {Dialog, DialogPanel, DialogTitle} from "@headlessui/react";
-import ChartDonut from "../Charts/ChartDonut.jsx";
 import {useEffect, useState} from "react";
-import DTable from "../Tables/DTable.jsx";
-import withReactContent from "sweetalert2-react-content";
-import Swal from "sweetalert2";
-import ModalAddItemOcc from "../Modals/ModalAddItemOcc.jsx";
+import useExpenseOccasionalStore from "../../store/useExpenseOccasionalStore.js";
+import ModalAddSubItem from "../Modals/ModalOccasionalExpense/ModalAddSubItem.jsx";
+import ModalDeleteExpense from "../Modals/ModalFixedExpense/ModalDeleteExpense.jsx";
+import ModalChart from "../Modals/ModalChart/ModalChart.jsx";
 import ModalDatatable from "../Modals/ModalDatatable.jsx";
-import ModalChart from "../Modals/ModalChart.jsx";
 
 const CardOccasionnelle = () => {
-
+    // STORE / DB
+    const dataExpenseOccasional = useExpenseOccasionalStore((state) => state.dataExpenseOccasional);
+    const addOccasionalExpense = useExpenseOccasionalStore((state) => state.addOccasionalExpense);
+    const addOccasionalSubItem = useExpenseOccasionalStore((state) => state.addSubItem )
+    const deleteOccasionalExpense = useExpenseOccasionalStore((state) => state.deleteOccasionalExpense )
     // MODAL
     const [currentModal, setCurrentModal] = useState(null);
-    const closeModal = () => {
-        setCurrentModal(null);
+    const [categoryId, setCategoryId] = useState(null);
+    const [itemId, setItemId] = useState(null);
+    // AJOUTER CATEGORIE
+    const modalAddExpenseOccasional = (e) => {
+        setCurrentModal("modalAddItemOccasional");
+        setCategoryId(parseInt(e.currentTarget.id, 10));
+    };
+
+    // AJOUTER SOUS DATA
+    const modalAddSubItem = (e) => {
+        const id = e.currentTarget.id;
+        setItemId(id);
+        setCurrentModal("modalAddSubItem");
     }
 
-    // AJOUTER UNE DEPENSE
-    const handleFormSubmit = (dataForm) => {
-        console.log("Recus de la modal:", dataForm);
+    // SUPRIMER DEPENSE
+    const modalDeleteExpense = (e) => {
+        const id = parseInt(e.currentTarget.id, 10);
+        setCategoryId(id);
+        setCurrentModal("modalDeleteExpense");
+    };
+    // GRAPHIQUE
+    const modalGraphique = (e) => {
+        setCurrentModal("ModalGraphique")
+        setCategoryId(parseInt(e.currentTarget.id, 10));
     }
+
+    // DATATABLE
+    const modalDatatable = (e) => {
+        const id = parseInt(e.currentTarget.id, 10); // Vérifie et parse correctement l'id
+        console.log("ID de la catégorie pour le DataTable :", id);
+        setCurrentModal("modalDatatable");
+        setCategoryId(id);
+    }
+
+    // FERMER MODAL
+    const closeModal = () => {
+        setCurrentModal(null);
+    };
+
+    // DROPDOWN ACTION
+    const [openDropdownId, setOpenDropdownId] = useState(null);
+    const toggleDropdown = (id) => {
+        setOpenDropdownId((prevId) => (prevId === id ? null : id));
+    };
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!event.target.closest(".dropdown")) {
+                setOpenDropdownId(null);
+            }
+        };
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
     return (
         <>
             <style>
-                {/*SCROLLBAR*/}
                 {`
                 .custom-scrollbar::-webkit-scrollbar {
                     width: 8px;
@@ -61,8 +112,17 @@ const CardOccasionnelle = () => {
                 }
                 `}
             </style>
+            {(openDropdownId) && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-50 z-20"
+                    onClick={() => {
+                        setOpenDropdownId(null);
+
+                    }}
+                ></div>
+            )}
             <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center m-5">
-                {cardData.slice(4, 8).map((card) => (
+                {dataExpenseOccasional.map((card) => (
                     <div
                         key={card.id}
                         className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
@@ -73,38 +133,33 @@ const CardOccasionnelle = () => {
                                 <FontAwesomeIcon
                                     className="mr-3"
                                     icon={card.icon}
-                                    style={{color: "#74C0FC"}}
+                                    style={{ color: "#74C0FC" }}
                                 />
                                 {card.title}
                             </h5>
                             <div className="px-0 py-0 flex gap-4">
                                 <button
+                                    id={card.id} // Assurez-vous que card.id est défini
                                     className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
                                     title="DataTable"
-                                    onClick={() => setCurrentModal("modalDatatable")}
+                                    onClick={modalDatatable}
                                 >
                                     <FontAwesomeIcon icon={faTableList}/>
                                 </button>
-
-                                <button
-                                    className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
-                                    title="Graphique"
-                                    onClick={() => setCurrentModal("modalChart")}
-                                >
+                                <button className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
+                                        title="Graphique"
+                                        id={card.id}
+                                        onClick={modalGraphique}>
                                     <FontAwesomeIcon icon={faChartBar}/>
                                 </button>
-                                {/*MODAL GRAPHIQUE*/}
-
                                 <button
-                                    id={card.id}
                                     className="text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
                                     title="Ajouter un élément"
-                                    onClick={() => setCurrentModal("modalAddItemOcc")}
+                                    id={card.id}
+                                    onClick={modalAddExpenseOccasional}
                                 >
                                     <FontAwesomeIcon icon={faPlusCircle}/>
                                 </button>
-                                {/*MODAL ADD DEPENSE*/}
-
                             </div>
                         </div>
                         {/* BODY */}
@@ -125,10 +180,31 @@ const CardOccasionnelle = () => {
                                         <td className="px-4 py-2">{item.total}</td>
                                         <td className="px-4 py-2 relative">
                                             <button
+                                                onClick={() => toggleDropdown(`${card.id}-${i}`)}
                                                 className="dropdown text-gray-500 hover:text-blue-500 dark:hover:text-blue-400"
                                             >
                                                 <FontAwesomeIcon icon={faEllipsis}/>
                                             </button>
+                                            {openDropdownId === `${card.id}-${i}` && (
+                                                <div
+                                                    className="absolute right-3 mt-2 w-32 border border-gray-600 dark:bg-gray-700 rounded-lg shadow-lg z-50 overflow-hidden"
+                                                >
+                                                    <button
+                                                        id={item.name}
+                                                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-500"
+                                                        onClick={modalAddSubItem}
+                                                    >
+                                                        <FontAwesomeIcon icon={faPlus} /> Ajouter
+                                                    </button>
+                                                    <button
+                                                        id={item.name}
+                                                        className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-500"
+                                                        onClick={() => deleteOccasionalExpense(item.name)}
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrash}/> Supprimer
+                                                    </button>
+                                                </div>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
@@ -142,11 +218,15 @@ const CardOccasionnelle = () => {
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Mois</div>
                             </div>
                             <div className="flex-1 text-center border-r border-gray-300 dark:border-gray-600">
-                                <div className="font-semibold text-gray-900 dark:text-white">{(card.total) * 3}</div>
+                                <div className="font-semibold text-gray-900 dark:text-white">
+                                    {(card.total || 0) * 3}
+                                </div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Trimestre</div>
                             </div>
                             <div className="flex-1 text-center">
-                                <div className="font-semibold text-gray-900 dark:text-white">{(card.total) * 12}</div>
+                                <div className="font-semibold text-gray-900 dark:text-white">
+                                    {(card.total || 0) * 12}
+                                </div>
                                 <div className="text-xs text-gray-500 dark:text-gray-400">Année</div>
                             </div>
                         </div>
@@ -154,15 +234,40 @@ const CardOccasionnelle = () => {
                 ))}
             </div>
             {/* MODAL */}
-            {currentModal === "modalAddItemOcc" && (
-                <ModalAddItemOcc handleFormSubmit={handleFormSubmit} closeModal={closeModal}/>
+            {currentModal === "modalAddItemOccasional" && (
+                <ModalAddItemOcc
+                    closeModal={closeModal}
+                    handleAddItem={(newItem) => addOccasionalExpense(categoryId, newItem)}
+                />
+            )}
+            {currentModal === "modalAddSubItem" && (
+                <ModalAddSubItem
+                    closeModal={closeModal}
+                    handleAddSubItem={(newItem) => {
+                        console.log("Nouvel élément reçu depuis ModalAddSubItem :", newItem);
+                        addOccasionalSubItem(itemId, newItem);
+                    }}
+                />
+            )}
+            {currentModal === "modalDeleteExpense" && (
+                <ModalDeleteExpense
+                    closeModal={closeModal}
+                    handleDeleteExpense={() => {
+                        deleteOccasionalExpense(categoryId);
+                    }}
+                />
+            )}
+            {currentModal === "ModalGraphique" && (
+                <ModalChart
+                    closeModal={closeModal}
+                    categoryId={categoryId}
+                />
             )}
             {currentModal === "modalDatatable" && (
-                <ModalDatatable closeModal={closeModal}/>
+
+                <ModalDatatable closeModal={closeModal} categoryId={categoryId} />
             )}
-            {currentModal === "modalChart" && (
-                <ModalChart closeModal={closeModal}/>
-            )}
+
         </>
     );
 };

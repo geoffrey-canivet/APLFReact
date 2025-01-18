@@ -15,6 +15,7 @@ import ChartDonut from "../Charts/ChartDonut.jsx";
 import CardOccasionnelle from "../Cards/CardOccasionnelle.jsx";
 import DataTable from "../Tables/DTable.jsx";
 import DTable from "../Tables/DTable.jsx";
+import CardRevenu from "../Cards/CardRevenu.jsx";
 
 const AccordionsCards = () => {
 
@@ -36,7 +37,7 @@ const AccordionsCards = () => {
     const accordions = [
         {id: 1, title: "Dépenses fixes", content: <CardFixe idDep="TEST" handleAddItem={handleAddItem} />, icon: faLandmark},
         {id: 2, title: "Dépenses occasionnelles", content: <CardOccasionnelle/>, icon: faCashRegister},
-        {id: 3, title: "Revenus", content: <DTable/>, icon: faWallet},
+        {id: 3, title: "Revenus", content: <CardRevenu/>, icon: faWallet},
     ];
     
     return (

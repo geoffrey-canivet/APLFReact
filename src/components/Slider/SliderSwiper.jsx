@@ -19,11 +19,16 @@ import {
     faLandmark, faCashRegister, faTag, faStore, faWallet, faMoneyBill, faMoneyBillWave, faSackDollar, faSackXmark
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import useExpenseStore from "../../store/useExpenseStore.js";
+import useIncomeStore from "../../store/useIncomeStore.js";
 
 
 const SwiperDashboard = () => {
 
-    const sliderData = [
+    const dataExpenseFixed = useExpenseStore((state) => state.dataExpenseFixed);
+    const dataIncome = useIncomeStore((state) => state.dataIncome);
+
+/*    const sliderData = [
         {   name: "Dépense Totale",
             icon: faSackXmark,
             totalData: "1.720.00 €",
@@ -131,7 +136,7 @@ const SwiperDashboard = () => {
             totalData: "Restaurant",
             color: "#74C0FC"
         },
-    ]
+    ]*/
 
 
 
@@ -181,7 +186,8 @@ const SwiperDashboard = () => {
                 }}
             >
                 {/* Slides */}
-                {sliderData.map((data, index) => (
+                {/*FIXE*/}
+                {dataExpenseFixed.map((data, index) => (
                     <SwiperSlide key={index}>
                         <div
                             className="slide bg-gray-700 text-white flex items-center justify-center"
@@ -190,13 +196,31 @@ const SwiperDashboard = () => {
                         >
                             <div className="flex flex-col">
                                 <FontAwesomeIcon size="xl" className="" icon={data.icon} style={{color: data.color}} />
-                                <h3 className="dark:text-gray-400 text-center mt-2 text-xs font-bold">{data.name}</h3>
-                                <p className="text-center mt-1 text-sm">{data.totalData}</p>
+                                <h3 className="dark:text-gray-400 text-center mt-2 text-xs font-bold">{data.title}</h3>
+                                <p className="text-center mt-1 text-sm">{data.total} €</p>
                             </div>
 
                         </div>
                     </SwiperSlide>
                 ))}
+                {/*REVENU*/}
+                {dataIncome.map((data, index) => (
+                    <SwiperSlide key={index}>
+                        <div
+                            className="slide bg-gray-700 text-white flex items-center justify-center"
+                            onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}
+                            onMouseLeave={(e) => e.currentTarget.classList.remove('hovered')}
+                        >
+                            <div className="flex flex-col">
+                                <FontAwesomeIcon size="xl" className="" icon={data.icon} style={{color: data.color}} />
+                                <h3 className="dark:text-gray-400 text-center mt-2 text-xs font-bold">{data.title}</h3>
+                                <p className="text-center mt-1 text-sm">{data.total} €</p>
+                            </div>
+
+                        </div>
+                    </SwiperSlide>
+                ))}
+
             </Swiper>
             <style>
                 {`

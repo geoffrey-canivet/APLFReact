@@ -1,13 +1,14 @@
 import DataTable from "react-data-table-component";
 import "../../styles/global.css"
+import useExpenseOccasionalStore from "../../store/useExpenseOccasionalStore.js";
 
-const DTable = () => {
-    const data = [
+const DTable = ({categoryId}) => {
+    /*const data = [
         {
             id: 1,
-            name: "Alimentaire",
+            title: "Alimentaire",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce A"},
                 {price: "7", commerce: "Commerce B"},
                 {price: "19", commerce: "Commerce C"},
@@ -15,9 +16,9 @@ const DTable = () => {
         },
         {
             id: 2,
-            name: "Cadeaux",
+            title: "Cadeaux",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce X"},
                 {price: "7", commerce: "Commerce Y"},
                 {price: "19", commerce: "Commerce Z"},
@@ -25,9 +26,9 @@ const DTable = () => {
         },
         {
             id: 3,
-            name: "Distributeur",
+            title: "Distributeur",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce P"},
                 {price: "7", commerce: "Commerce Q"},
                 {price: "19", commerce: "Commerce R"},
@@ -35,9 +36,9 @@ const DTable = () => {
         },
         {
             id: 4,
-            name: "Alimentaire",
+            title: "Alimentaire",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce A"},
                 {price: "7", commerce: "Commerce B"},
                 {price: "19", commerce: "Commerce C"},
@@ -45,9 +46,9 @@ const DTable = () => {
         },
         {
             id: 5,
-            name: "Cadeaux",
+            title: "Cadeaux",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce X"},
                 {price: "7", commerce: "Commerce Y"},
                 {price: "19", commerce: "Commerce Z"},
@@ -55,9 +56,9 @@ const DTable = () => {
         },
         {
             id: 6,
-            name: "Distributeur",
+            title: "Distributeur",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce P"},
                 {price: "7", commerce: "Commerce Q"},
                 {price: "19", commerce: "Commerce R"},
@@ -65,9 +66,9 @@ const DTable = () => {
         },
         {
             id: 7,
-            name: "Alimentaire",
+            title: "Alimentaire",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce A"},
                 {price: "7", commerce: "Commerce B"},
                 {price: "19", commerce: "Commerce C"},
@@ -75,9 +76,9 @@ const DTable = () => {
         },
         {
             id: 8,
-            name: "Cadeaux",
+            title: "Cadeaux",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce X"},
                 {price: "7", commerce: "Commerce Y"},
                 {price: "19", commerce: "Commerce Z"},
@@ -85,9 +86,9 @@ const DTable = () => {
         },
         {
             id: 9,
-            name: "Distributeur",
+            title: "Distributeur",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce P"},
                 {price: "7", commerce: "Commerce Q"},
                 {price: "19", commerce: "Commerce R"},
@@ -95,9 +96,9 @@ const DTable = () => {
         },
         {
             id: 10,
-            name: "Alimentaire",
+            title: "Alimentaire",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce A"},
                 {price: "7", commerce: "Commerce B"},
                 {price: "19", commerce: "Commerce C"},
@@ -105,9 +106,9 @@ const DTable = () => {
         },
         {
             id: 11,
-            name: "Cadeaux",
+            title: "Cadeaux",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce X"},
                 {price: "7", commerce: "Commerce Y"},
                 {price: "19", commerce: "Commerce Z"},
@@ -115,9 +116,9 @@ const DTable = () => {
         },
         {
             id: 12,
-            name: "Distributeur",
+            title: "Distributeur",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce P"},
                 {price: "7", commerce: "Commerce Q"},
                 {price: "19", commerce: "Commerce R"},
@@ -125,9 +126,9 @@ const DTable = () => {
         },
         {
             id: 13,
-            name: "Alimentaire",
+            title: "Alimentaire",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce A"},
                 {price: "7", commerce: "Commerce B"},
                 {price: "19", commerce: "Commerce C"},
@@ -135,9 +136,9 @@ const DTable = () => {
         },
         {
             id: 14,
-            name: "Cadeaux",
+            title: "Cadeaux",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce X"},
                 {price: "7", commerce: "Commerce Y"},
                 {price: "19", commerce: "Commerce Z"},
@@ -145,15 +146,29 @@ const DTable = () => {
         },
         {
             id: 15,
-            name: "Distributeur",
+            title: "Distributeur",
             total: 15,
-            details: [
+            subData: [
                 {price: "30", commerce: "Commerce P"},
                 {price: "7", commerce: "Commerce Q"},
                 {price: "19", commerce: "Commerce R"},
             ],
         },
-    ];
+    ];*/
+
+    // STORE / DB
+    const dataOccasional = useExpenseOccasionalStore((state) => state.dataExpenseOccasional);
+
+    const category = dataOccasional.find((category) => category.id === categoryId);
+
+    if (!category) {
+        console.log("Aucune catégorie trouvée pour l'ID :", categoryId);
+        return <div>Aucune donnée disponible.</div>;
+    }
+
+    const data = category.data || [];
+
+
 
     function generateRandomColor() {
         const letters = '0123456789ABCDEF';
@@ -165,7 +180,7 @@ const DTable = () => {
     }
 
     const columns = [
-        { name: "Nb", selector: (row) => row.details.length, sortable: true, $grow: 0 },
+        { name: "Nb", selector: (row) => row.subData.length, sortable: true, $grow: 0 },
         { name: "Nom", selector: (row) => row.name, sortable: true, $grow: 1 },
         { name: "Total", selector: (row) => row.total, sortable: true, $grow: 0 },
         { name: "Commerce", cell: (row) => (
@@ -197,13 +212,13 @@ const DTable = () => {
 
 
 
-    const ExpandedComponent = ({data}) => (
-        <div style={{padding: "10px", backgroundColor: "#f9f9f9"}}>
+    const ExpandedComponent = ({ data }) => (
+        <div style={{ padding: "10px", backgroundColor: "#f9f9f9" }}>
             <h4>Détails :</h4>
             <ul>
-                {data.details.map((detail, index) => (
+                {data.subData.map((detail, index) => (
                     <li key={index}>
-                        <strong>Prix:</strong> {detail.price}, <strong>Commerce:</strong> {detail.commerce}
+                        <strong>Prix:</strong> {detail} {/* Affiche chaque élément dans `subData` */}
                     </li>
                 ))}
             </ul>

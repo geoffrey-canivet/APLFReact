@@ -1,6 +1,6 @@
 import avat from "../../assets/avat.png";
 import {useState} from "react";
-import ModalAddItemOcc from "../Modals/ModalAddItemOcc.jsx";
+import ModalAddItemOcc from "../Modals/ModalOccasionalExpense/ModalAddItemOcc.jsx";
 import ModalModifProfil from "../Modals/ModalModifProfil.jsx";
 
 

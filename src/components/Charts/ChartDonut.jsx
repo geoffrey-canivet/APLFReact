@@ -1,25 +1,45 @@
 import Chart from 'react-apexcharts';
 import cardData from "../../data/DB.js";
 import {useEffect, useState} from "react";
+import useExpenseStore from "../../store/useExpenseStore.js";
+import useIncomeStore from "../../store/useIncomeStore.js";
+import useExpenseOccasionalStore from "../../store/useExpenseOccasionalStore.js";
 
-const ChartDonut = ({ data }) => {
+const ChartDonut = ({categoryId}) => {
 
+    const [categories, setCategories] = useState(null); // État pour stocker la catégorie sélectionnée
     const [labels, setLabels] = useState([]);
     const [series, setSeries] = useState([]);
 
-    useEffect(() => {
-        if (data && data.length > 0) { // si existe et n est pas vide
-            setLabels(data.map(item => item.name));
-            setSeries(data.map(item => parseFloat(item.price)));
-        }
-    }, [data]);
 
+    // STORE / DB
+    const dataExpenseFixed = useExpenseStore((state) => state.dataExpenseFixed);
+    const dataIncome = useIncomeStore((state) => state.dataIncome);
+    const dataOccasionel = useExpenseOccasionalStore((state) => state.deleteOccasionalExpense())
+
+    // Mettre à jour `categories` en fonction de `categoryId`
     useEffect(() => {
-        if (labels.length > 0 && series.length > 0) {
-            console.log("Labels :", labels);
-            console.log("Series :", series);
+        let selectedCategory = null;
+
+        if ([1, 2, 3, 4].includes(categoryId)) {
+            selectedCategory = dataExpenseFixed.find((item) => item.id === categoryId);
+        } else if ([9, 10, 11, 12].includes(categoryId)) {
+            selectedCategory = dataIncome.find((item) => item.id === categoryId);
         }
-    }, [labels, series]);
+
+        if (selectedCategory) {
+            setCategories(selectedCategory);
+        }
+    }, [categoryId, dataExpenseFixed, dataIncome, dataOccasionel]);
+
+// Mettre à jour `labels` et `series` en fonction de `categories`
+    useEffect(() => {
+        if (categories && categories.data) {
+            setLabels(categories.data.map((item) => item.name));
+            setSeries(categories.data.map((item) => parseFloat(item.price)));
+        }
+    }, [categories]);
+
 
     const generateRandomColors = (count) => {
         return Array.from({ length: count }, () =>
@@ -54,6 +74,10 @@ const ChartDonut = ({ data }) => {
                 animateGradually: {
                     enabled: true,
                     delay: 150, // Délai entre les animations des segments
+                },
+                dynamicAnimation: {
+                    enabled: true, // Active les animations dynamiques lors des mises à jour
+                    speed: 350, // Durée de l'animation lors d'une mise à jour dynamique
                 },
             },
         },

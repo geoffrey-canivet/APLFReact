@@ -3,7 +3,7 @@ import MySwal from "sweetalert2";
 import ReactDOM from "react-dom/client"; // React 18+
 import DTable from "../Tables/DTable.jsx";
 
-const ModalDatatable = ({ closeModal }) => {
+const ModalDatatable = ({ closeModal, categoryId }) => {
     useEffect(() => {
         let root = null; // Stocke la racine React
 
@@ -67,7 +67,7 @@ const ModalDatatable = ({ closeModal }) => {
                         // Réutiliser la racine existante
                         root = container._root;
                     }
-                    root.render(<DTable />);
+                    root.render(<DTable categoryId={categoryId} />);
                 }
                 const backdrop = document.querySelector(".swal2-backdrop-show");
                 if (backdrop) {

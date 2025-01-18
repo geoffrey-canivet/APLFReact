@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 import MySwal from "sweetalert2";
+import ToastNotification from "sweetalert2";
 
-const ModalAddItemOcc = ({ handleFormSubmit, closeModal }) => {
+const ModalAddItemOcc = ({ handleAddItem, closeModal }) => {
     useEffect(() => {
         MySwal.fire({
             title: "Courante",
@@ -171,22 +172,27 @@ const ModalAddItemOcc = ({ handleFormSubmit, closeModal }) => {
                 }
             },
             preConfirm: () => {
-                const nom = document.getElementById("inputNom").value;
-                const prix = document.getElementById("inputPrix").value;
+                const name = document.getElementById("inputNom").value;
+                const subData = document.getElementById("inputPrix").value;
                 const commerce = document.getElementById("inputCommerce").value;
                 const date = document.getElementById("inputDate").value;
-                if (!nom || !prix) {
+                const total = subData
+                if (!name || !subData) {
                     Swal.showValidationMessage("Veuillez remplir nom et prix");
                 }
-                return { nom, prix, commerce, date };
+                return { name, subData, total};
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                handleFormSubmit(result.value);
+                handleAddItem(result.value)
+                ToastNotification.fire({
+                    icon: "success",
+                    title: `${result.value.name} ajouté avec succès.`,
+                });
             }
             closeModal();
         });
-    }, [handleFormSubmit, closeModal]);
+    }, [handleAddItem, closeModal]);
 
     return <></>;
 };
