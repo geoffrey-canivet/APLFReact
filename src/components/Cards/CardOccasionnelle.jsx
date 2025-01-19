@@ -177,7 +177,7 @@ const CardOccasionnelle = () => {
                                         >
                                             {item.name}
                                         </td>
-                                        <td className="px-4 py-2">{item.total}</td>
+                                        <td className="px-4 py-2">{item.price}</td>
                                         <td className="px-4 py-2 relative">
                                             <button
                                                 onClick={() => toggleDropdown(`${card.id}-${i}`)}

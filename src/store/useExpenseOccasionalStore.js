@@ -1,20 +1,21 @@
 import { create } from 'zustand';
-import cardDataDB from "../data/DB.js"
+import cardDataDB from "../data/DB.js";
 
 // TOTAL CATEGORIES
 // (fonction helper)
 const calculateTotals = (categories) =>
     categories.map((category) => ({
         ...category,
-        total: category.data.reduce((sum, item) => sum + parseFloat(item.price || 0), 0)
+        total: category.data.reduce((sum, item) => sum + parseFloat(item.price || 0), 0),
     }));
 
 const useExpenseOccasionalStore = create((set, get) => ({
-
     // DATA
-    dataExpenseOccasional: calculateTotals(cardDataDB.filter((item) => [5, 6, 7, 8].includes(item.id))) ,
+    dataExpenseOccasional: calculateTotals(
+        cardDataDB.filter((item) => [5, 6, 7, 8].includes(item.id))
+    ),
 
-    // AJOUTER DEPENSE OCCASIONNELLE
+    // AJOUTER DÉPENSE OCCASIONNELLE
     addOccasionalExpense: (categoryId, newItem) =>
         set((state) => {
             console.log("Category ID reçu :", categoryId);
@@ -22,34 +23,45 @@ const useExpenseOccasionalStore = create((set, get) => ({
 
             const updatedData = state.dataExpenseOccasional.map((category) => {
                 if (category.id === categoryId) {
-                    // Normaliser l'élément ajouté
+                    // Vérifiez si `newItem.subData` est un tableau ou une valeur unique
+                    const normalizedSubData = Array.isArray(newItem.subData)
+                        ? newItem.subData.map((val) => parseFloat(val || 0))
+                        : [parseFloat(newItem.subData || 0)];
+
+                    // Recalculez le total de `subData`
+                    const updatedPrice = normalizedSubData.reduce(
+                        (sum, val) => sum + (isNaN(val) ? 0 : val),
+                        0
+                    );
+
+                    // Créez un nouvel élément avec le total mis à jour
                     const normalizedItem = {
                         ...newItem,
-                        subData: Array.isArray(newItem.subData) ? newItem.subData : [newItem.subData],
-                        total: newItem.total !== undefined ? parseFloat(newItem.total) : 0,
+                        subData: normalizedSubData,
+                        price: updatedPrice, // Met le total de `subData` dans `price`
                     };
 
                     console.log("Élément normalisé :", normalizedItem);
 
-                    // Ajouter le nouvel élément
-                    const updatedData = [...category.data, normalizedItem];
+                    // Ajoutez le nouvel élément à la catégorie
+                    const updatedCategoryData = [...category.data, normalizedItem];
 
-                    // Recalculer le total
-                    const updatedTotal = updatedData.reduce((sum, item) => {
-                        const itemTotal = parseFloat(item.total || 0); // Convertir chaque total en nombre
-                        return sum + (isNaN(itemTotal) ? 0 : itemTotal); // Ignorer les valeurs invalides
-                    }, 0);
+                    // Recalculez le total de la catégorie
+                    const updatedTotal = updatedCategoryData.reduce(
+                        (sum, item) => sum + parseFloat(item.price || 0),
+                        0
+                    );
 
-                    console.log("Données mises à jour pour la catégorie :", updatedData);
-                    console.log("Total recalculé :", updatedTotal);
+                    console.log("Données mises à jour pour la catégorie :", updatedCategoryData);
+                    console.log("Total recalculé pour la catégorie :", updatedTotal);
 
                     return {
                         ...category,
-                        data: updatedData,
-                        total: updatedTotal,
+                        data: updatedCategoryData,
+                        total: updatedTotal, // Mise à jour du total de la catégorie
                     };
                 }
-                return category;
+                return category; // Aucune modification pour les autres catégories
             });
 
             console.log("Nouvelles données après mise à jour :", updatedData);
@@ -57,90 +69,57 @@ const useExpenseOccasionalStore = create((set, get) => ({
             return { dataExpenseOccasional: updatedData };
         }),
 
+
+
+    // AJOUTER UNE SOUS-DONNÉE
     addSubItem: (itemId, newSubItem) =>
         set((state) => {
-            const subItem = newSubItem.price
-
-            console.log("=== Début de la fonction addSubItem ===");
-            console.log("ID de l'élément reçu (string) :", itemId);
-            console.log("Nouvelle sous-valeur reçue :", subItem);
+            const subItem = newSubItem.price;
 
             const updatedData = state.dataExpenseOccasional.map((category) => {
-                console.log("Catégorie analysée :", category.title);
-
                 const updatedCategoryData = category.data.map((item) => {
-                    console.log("Analyse de l'élément :", item.name, "avec ID :", item.id);
+                    if (item.name === itemId) {
+                        const updatedSubData = [...(item.subData || []), subItem];
 
-                    if (item.name === itemId) { // Comparaison d'IDs en tant que chaînes
-                        console.log("Élément correspondant trouvé :", item);
-
-                        // Vérifiez si `subData` est bien un tableau
-                        if (!Array.isArray(item.subData)) {
-                            console.warn("subData n'est pas un tableau. Valeur actuelle :", item.subData);
-                            item.subData = [];
-                        }
-
-                        // Ajouter la nouvelle valeur à subData
-                        const updatedSubData = [...item.subData, subItem];
-                        console.log("SubData après ajout :", updatedSubData);
-
-                        // Recalculer le total de l'élément
-                        const updatedTotal = updatedSubData.reduce((sum, value) => {
-                            const parsedValue = parseFloat(value || 0);
-                            console.log("Ajout au total :", parsedValue, "Valeur courante du total :", sum);
-                            return sum + (isNaN(parsedValue) ? 0 : parsedValue);
-                        }, 0);
-                        console.log("Nouveau total calculé pour l'élément :", updatedTotal);
+                        const updatedPrice = updatedSubData.reduce(
+                            (sum, value) => sum + parseFloat(value || 0),
+                            0
+                        );
 
                         return {
                             ...item,
                             subData: updatedSubData,
-                            total: updatedTotal,
+                            price: updatedPrice,
                         };
                     }
-
                     return item;
                 });
 
-                // Recalculer le total de la catégorie
-                const updatedCategoryTotal = updatedCategoryData.reduce((sum, item) => {
-                    const itemTotal = parseFloat(item.total || 0);
-                    console.log("Ajout au total de la catégorie :", itemTotal, "Total actuel :", sum);
-                    return sum + (isNaN(itemTotal) ? 0 : itemTotal);
-                }, 0);
-                console.log("Nouveau total calculé pour la catégorie :", updatedCategoryTotal);
+                const updatedCategoryTotal = updatedCategoryData.reduce(
+                    (sum, item) => sum + parseFloat(item.price || 0),
+                    0
+                );
 
                 return {
                     ...category,
                     data: updatedCategoryData,
-                    total: updatedCategoryTotal, // Mise à jour du total de la catégorie
+                    total: updatedCategoryTotal,
                 };
             });
-
-            console.log("Nouvelles données après mise à jour :", updatedData);
-            console.log("=== Fin de la fonction addSubItem ===");
 
             return { dataExpenseOccasional: updatedData };
         }),
 
+    // SUPPRIMER UNE DÉPENSE OCCASIONNELLE
     deleteOccasionalExpense: (expenseId) =>
         set((state) => {
-            console.log("ID de la dépense à supprimer (string) :", expenseId);
-
-            // Mise à jour des données en supprimant l'élément correspondant
             const updatedData = state.dataExpenseOccasional.map((category) => {
-                const filteredData = category.data.filter((item) => {
-                    console.log("Comparaison d'ID :", item.name, "===", expenseId);
-                    return item.name !== expenseId; // Assurez-vous que item.id reste une chaîne
-                });
-                console.log("Données filtrées pour la catégorie :", filteredData);
+                const filteredData = category.data.filter((item) => item.name !== expenseId);
 
-                // Recalculer le total de la catégorie
                 const updatedCategoryTotal = filteredData.reduce(
-                    (sum, item) => sum + parseFloat(item.total || 0),
+                    (sum, item) => sum + parseFloat(item.price || 0),
                     0
                 );
-                console.log("Total mis à jour pour la catégorie :", updatedCategoryTotal);
 
                 return {
                     ...category,
@@ -149,21 +128,8 @@ const useExpenseOccasionalStore = create((set, get) => ({
                 };
             });
 
-            console.log("Nouvelles données après suppression :", updatedData);
-
             return { dataExpenseOccasional: updatedData };
         }),
-
-
-
-
-
-
-
-
-
-
-
 }));
 
 export default useExpenseOccasionalStore;

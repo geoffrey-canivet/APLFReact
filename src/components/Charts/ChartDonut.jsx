@@ -12,10 +12,14 @@ const ChartDonut = ({categoryId}) => {
     const [series, setSeries] = useState([]);
 
 
+
     // STORE / DB
     const dataExpenseFixed = useExpenseStore((state) => state.dataExpenseFixed);
     const dataIncome = useIncomeStore((state) => state.dataIncome);
-    const dataOccasionel = useExpenseOccasionalStore((state) => state.deleteOccasionalExpense())
+    const dataOccasionel = useExpenseOccasionalStore((state) => state.dataExpenseOccasional)
+
+    console.log(dataExpenseFixed);
+    console.log(dataOccasionel);
 
     // Mettre à jour `categories` en fonction de `categoryId`
     useEffect(() => {
@@ -25,12 +29,15 @@ const ChartDonut = ({categoryId}) => {
             selectedCategory = dataExpenseFixed.find((item) => item.id === categoryId);
         } else if ([9, 10, 11, 12].includes(categoryId)) {
             selectedCategory = dataIncome.find((item) => item.id === categoryId);
+        } else if ([5, 6, 7, 8].includes(categoryId)) {
+            selectedCategory = dataOccasionel.find((item) => item.id === categoryId);
         }
 
         if (selectedCategory) {
             setCategories(selectedCategory);
         }
     }, [categoryId, dataExpenseFixed, dataIncome, dataOccasionel]);
+
 
 // Mettre à jour `labels` et `series` en fonction de `categories`
     useEffect(() => {

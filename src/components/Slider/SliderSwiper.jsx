@@ -21,125 +21,14 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import useExpenseStore from "../../store/useExpenseStore.js";
 import useIncomeStore from "../../store/useIncomeStore.js";
+import useExpenseOccasionalStore from "../../store/useExpenseOccasionalStore.js";
 
 
 const SwiperDashboard = () => {
 
     const dataExpenseFixed = useExpenseStore((state) => state.dataExpenseFixed);
     const dataIncome = useIncomeStore((state) => state.dataIncome);
-
-/*    const sliderData = [
-        {   name: "Dépense Totale",
-            icon: faSackXmark,
-            totalData: "1.720.00 €",
-            color: "#c85354"
-        },
-        {
-            name: "Charges",
-            icon: faHouse,
-            totalData: "230.00 €",
-            color: "#74C0FC"
-        },
-        {
-            name: "Crédits",
-            icon: faCreditCard,
-            totalData: "300.00 €",
-            color: "#74C0FC"
-        },
-        {
-            name: "Assurances",
-            icon: faUmbrella,
-            totalData: "783.00 €",
-            color: "#74C0FC"
-        },
-        {
-            name: "Abonnements",
-            icon: faTicket,
-            totalData: "125.30 €",
-            color: "#74C0FC"
-        },
-        {
-            name: "Total Fixe",
-            icon: faLandmark,
-            totalData: "940.00 €",
-            color: "#c85354"
-        },
-        {
-            name: "Courantes",
-            icon: faAppleWhole,
-            totalData: "490.00 €",
-            color: "#74C0FC"
-        },
-        {
-            name: "Loisirs",
-            icon: faPlane,
-            totalData: "300.00 €",
-            color: "#74C0FC"
-        },
-        {
-            name: "Occasionnelles",
-            icon: faGift,
-            totalData: "85.00 €",
-            color: "#74C0FC"
-        },
-        {
-            name: "Divers",
-            icon: faThumbtack,
-            totalData: "205.00 €",
-            color: "#74C0FC"
-        },
-        {
-            name: "Total Occas...",
-            icon: faCashRegister,
-            totalData: "745.00 €",
-            color: "#c85354"
-        },
-        {
-            name: "Actifs",
-            icon: faMoneyBill,
-            totalData: "1.980.00 €",
-            color: "#48AE6F"
-        },
-        {
-            name: "Passifs",
-            icon: faMoneyBillWave,
-            totalData: "730.00 €",
-            color: "#48AE6F"
-        },
-        {
-            name: "Exeptionnels",
-            icon: faThumbtack,
-            totalData: "55.00 €",
-            color: "#48AE6F"
-        },
-        {
-            name: "Divers",
-            icon: faSackDollar,
-            totalData: "0.00 €",
-            color: "#48AE6F"
-        },
-        {
-            name: "Total Revenu",
-            icon: faWallet,
-            totalData: "2.430.00 €",
-            color: "#48AE6F"
-        },
-        {
-            name: "Commerce",
-            icon: faStore,
-            totalData: "Carrefour",
-            color: "#74C0FC"
-        },
-        {
-            name: "Dépense",
-            icon: faTag,
-            totalData: "Restaurant",
-            color: "#74C0FC"
-        },
-    ]*/
-
-
-
+    const dataOccasional = useExpenseOccasionalStore((state) => state.dataExpenseOccasional);
 
     return (
         <div className="pt-16 mt px-3">
@@ -188,6 +77,23 @@ const SwiperDashboard = () => {
                 {/* Slides */}
                 {/*FIXE*/}
                 {dataExpenseFixed.map((data, index) => (
+                    <SwiperSlide key={index}>
+                        <div
+                            className="slide bg-gray-700 text-white flex items-center justify-center"
+                            onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}
+                            onMouseLeave={(e) => e.currentTarget.classList.remove('hovered')}
+                        >
+                            <div className="flex flex-col">
+                                <FontAwesomeIcon size="xl" className="" icon={data.icon} style={{color: data.color}} />
+                                <h3 className="dark:text-gray-400 text-center mt-2 text-xs font-bold">{data.title}</h3>
+                                <p className="text-center mt-1 text-sm">{data.total} €</p>
+                            </div>
+
+                        </div>
+                    </SwiperSlide>
+                ))}
+                {/*FIXE*/}
+                {dataOccasional.map((data, index) => (
                     <SwiperSlide key={index}>
                         <div
                             className="slide bg-gray-700 text-white flex items-center justify-center"
